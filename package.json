@@ -1,0 +1,21 @@
+{
+  "name": "blendercap-lender-search-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static BlenderCap lender search demo configured for Vercel.",
+  "scripts": {
+    "build": "node --check app.js && node scripts/verify-static-site.js",
+    "dev": "npx vercel dev",
+    "start": "python3 -m http.server 8080",
+    "verify": "npm run build",
+    "deploy:preview": "npx vercel",
+    "deploy:production": "npx vercel --prod"
+  },
+  "keywords": [
+    "blendercap",
+    "lender-search",
+    "vercel",
+    "static-site"
+  ],
+  "license": "UNLICENSED"
+}
