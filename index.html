@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BlenderCap Lender Search Demo</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="topbar" aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="BlenderCap home">
+          <span class="brand-mark">BC</span>
+          <span>BlenderCap</span>
+        </a>
+        <a class="nav-link" href="#lenders">Explore lenders</a>
+      </nav>
+
+      <section class="hero-grid" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow">Lender discovery demo</p>
+          <h1>Find the right capital partner in minutes.</h1>
+          <p class="hero-text">
+            Search curated lenders, compare terms, and surface the strongest
+            match for your borrowing scenario.
+          </p>
+          <a class="button button-primary" href="#lenders">Start searching</a>
+        </div>
+
+        <aside class="summary-card" aria-label="Demo highlights">
+          <p class="summary-label">Live demo snapshot</p>
+          <div class="summary-stat">
+            <strong id="lender-count">0</strong>
+            <span>lenders available</span>
+          </div>
+          <div class="summary-list">
+            <span>Commercial real estate</span>
+            <span>Equipment finance</span>
+            <span>Working capital</span>
+          </div>
+        </aside>
+      </section>
+    </header>
+
+    <main>
+      <section class="search-panel" id="lenders" aria-labelledby="search-heading">
+        <div class="section-heading">
+          <p class="eyebrow">Search experience</p>
+          <h2 id="search-heading">Compare lenders by fit</h2>
+          <p>
+            Tune the borrower profile below to watch the lender list update in
+            real time.
+          </p>
+        </div>
+
+        <form class="controls" id="search-form">
+          <label class="control control-wide" for="query">
+            <span>Keyword</span>
+            <input
+              id="query"
+              name="query"
+              type="search"
+              placeholder="Search by lender, sector, or location"
+              autocomplete="off"
+            >
+          </label>
+
+          <label class="control" for="product">
+            <span>Product</span>
+            <select id="product" name="product">
+              <option value="all">All products</option>
+              <option value="CRE">Commercial real estate</option>
+              <option value="SBA">SBA</option>
+              <option value="Equipment">Equipment</option>
+              <option value="Working Capital">Working capital</option>
+            </select>
+          </label>
+
+          <label class="control" for="amount">
+            <span>Minimum amount</span>
+            <select id="amount" name="amount">
+              <option value="0">Any size</option>
+              <option value="250000">$250K+</option>
+              <option value="1000000">$1M+</option>
+              <option value="5000000">$5M+</option>
+              <option value="10000000">$10M+</option>
+            </select>
+          </label>
+
+          <label class="control" for="sort">
+            <span>Sort by</span>
+            <select id="sort" name="sort">
+              <option value="match">Best match</option>
+              <option value="rate">Lowest starting rate</option>
+              <option value="speed">Fastest close</option>
+            </select>
+          </label>
+        </form>
+
+        <div class="results-meta" aria-live="polite">
+          <strong id="result-count">0</strong>
+          <span id="result-label">matches</span>
+        </div>
+
+        <div class="lender-grid" id="lender-grid"></div>
+      </section>
+    </main>
+
+    <template id="lender-card-template">
+      <article class="lender-card">
+        <div class="card-header">
+          <div>
+            <p class="lender-type"></p>
+            <h3></h3>
+          </div>
+          <span class="match-score"></span>
+        </div>
+        <p class="description"></p>
+        <dl class="metrics">
+          <div>
+            <dt>Amount</dt>
+            <dd class="amount"></dd>
+          </div>
+          <div>
+            <dt>Rate from</dt>
+            <dd class="rate"></dd>
+          </div>
+          <div>
+            <dt>Close time</dt>
+            <dd class="speed"></dd>
+          </div>
+        </dl>
+        <div class="tags"></div>
+        <button class="button button-secondary" type="button">View lender</button>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
