@@ -53,6 +53,24 @@ npm run deploy:production
 Vercel runs `npm run build`, which verifies JavaScript syntax and required
 static page assets before serving the root directory.
 
+## Authenticate Vercel in CI
+
+The GitHub Actions workflow in `.github/workflows/vercel.yml` validates the demo
+on pull requests and deploys to Vercel on pushes to `main` or manual workflow
+runs. Configure these repository secrets before running the deployment job:
+
+- `VERCEL_TOKEN`: Vercel access token.
+- `VERCEL_ORG_ID`: Vercel team or user ID that owns the project.
+- `VERCEL_PROJECT_ID`: Vercel project ID for this demo.
+
+The deployment job uses those secrets to run:
+
+```bash
+npx vercel@latest pull --yes --environment=production --token="$VERCEL_TOKEN"
+npx vercel@latest build --prod --token="$VERCEL_TOKEN"
+npx vercel@latest deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+```
+
 ## Demo flow
 
 1. Choose a scenario preset or edit the product, amount, region, timeline, and
