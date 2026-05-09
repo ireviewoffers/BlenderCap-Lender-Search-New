@@ -1,8 +1,7 @@
 # BlenderCap Lender Search Demo
 
 A self-contained, usable demo site for matching borrower scenarios with lender
-options. The demo is a static web app, so it does not require a build step or
-package installation.
+options. The demo is a static web app configured for Vercel hosting.
 
 ## What is included
 
@@ -20,10 +19,39 @@ package installation.
 Open `index.html` directly in a browser, or serve the folder locally:
 
 ```bash
-python3 -m http.server 8080
+npm start
 ```
 
 Then visit `http://localhost:8080`.
+
+## Run with Vercel
+
+Use Vercel's local development server to preview the deployed environment:
+
+```bash
+npm run dev
+```
+
+To validate the static site before deployment:
+
+```bash
+npm run verify
+```
+
+Create a Vercel preview deployment:
+
+```bash
+npm run deploy:preview
+```
+
+Deploy to production:
+
+```bash
+npm run deploy:production
+```
+
+Vercel runs `npm run build`, which verifies JavaScript syntax and required
+static page assets before serving the root directory.
 
 ## Demo flow
 
