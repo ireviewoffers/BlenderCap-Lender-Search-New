@@ -6,6 +6,12 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      deploy_production:
+        description: Deploy to Vercel production
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
@@ -31,7 +37,7 @@ jobs:
     name: Deploy production to Vercel
     needs: validate
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy_production
 
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}

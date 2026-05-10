@@ -56,8 +56,9 @@ static page assets before serving the root directory.
 ## Authenticate Vercel in CI
 
 The GitHub Actions workflow in `.github/workflows/vercel.yml` validates the demo
-on pull requests and deploys to Vercel on pushes to `main` or manual workflow
-runs. Configure these repository secrets before running the deployment job:
+on pull requests, pushes to `main`, and manual workflow runs. Production deploys
+run only when a manual workflow run sets `deploy_production` to `true`.
+Configure these repository secrets before running the deployment job:
 
 - `VERCEL_TOKEN`: Vercel access token.
 - `VERCEL_ORG_ID`: Vercel team or user ID that owns the project.
