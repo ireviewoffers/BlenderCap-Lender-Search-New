@@ -13,5 +13,5 @@ This is a zero-dependency static web app (vanilla JS/HTML/CSS). There is no buil
 ### Gotchas
 
 - The `npm run dev` command invokes Vercel CLI (`npx vercel dev`) and requires Vercel authentication — use `npm start` for local development instead.
-- `package.json` has no `dependencies` or `devDependencies`, so `npm install` is a no-op but harmless.
+- **Install/no-op:** no install step is required. Treat dependency installation as a no-op; running `npm install` may create a local `package-lock.json`, so skip it unless you intentionally want to generate one.
 - CI uses Node.js 22 (see `.github/workflows/vercel.yml`).
