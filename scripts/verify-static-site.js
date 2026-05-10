@@ -27,6 +27,10 @@ const requiredIds = [
   "lender-dialog",
   "copy-summary",
   "clear-shortlist",
+  "upload-dropzone",
+  "pdf-input",
+  "upload-status",
+  "uploaded-lenders-list",
 ];
 
 const missingAssets = assets.filter((asset) => !existsSync(join(root, asset)));
