@@ -709,9 +709,10 @@ function extractLenderName(text, fileName) {
 function detectProducts(text) {
   const lower = text.toLowerCase();
   const products = [];
-  if (/\b(commercial\s+real\s+estate|cre\b|multifamily|industrial\s+propert|retail\s+propert)/i.test(lower)) products.push("CRE");
-  if (/\bsba\b|small\s+business\s+admin/i.test(lower)) products.push("SBA");
-  if (/\bequipment\b/i.test(lower)) products.push("Equipment");
+  const hasSba = /\bsba\b|small\s+business\s+admin/i.test(lower);
+  if (hasSba) products.push("SBA");
+  if (/\b(commercial\s+real\s+estate|cre\b|multifamily|industrial\s+propert|retail\s+propert)/i.test(lower) && !hasSba) products.push("CRE");
+  if (/\bequipment\b/i.test(lower) && !hasSba) products.push("Equipment");
   if (/\b(working\s+capital|revolving\s+line|line\s+of\s+credit|operating\s+line)/i.test(lower)) products.push("Working Capital");
   return products.length > 0 ? products : ["Working Capital"];
 }
@@ -932,19 +933,23 @@ async function handlePdfUpload(files) {
   shortlist = loadShortlist();
   renderAll();
 
+  const totalUploaded = uploadedLenders.length;
+  const totalLabel = totalUploaded + " uploaded lender" + (totalUploaded > 1 ? "s" : "") + " total";
+
   if (results.success > 0 && results.failed === 0) {
     uploadStatus.innerHTML =
       '<span class="upload-success">Added ' +
       results.success +
       " lender" +
       (results.success > 1 ? "s" : "") +
-      " from PDF guidelines.</span>";
+      " from PDF guidelines — " + totalLabel + ".</span>";
   } else if (results.success > 0 && results.failed > 0) {
     uploadStatus.innerHTML =
       '<span class="upload-success">Added ' +
       results.success +
       " lender" +
       (results.success > 1 ? "s" : "") +
+      " — " + totalLabel +
       '.</span> <span class="upload-error">' +
       results.failed +
       " file" +
