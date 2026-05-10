@@ -30,15 +30,15 @@
           and build a shortlist — all in one guided flow.
         </p>
         <div class="hero-cta-row">
-          <a class="cta-card" href="#scenario">
-            <span class="cta-icon" aria-hidden="true">&#9971;</span>
+          <a class="cta-card" href="#scenario" data-loan-type="residential">
+            <span class="cta-icon" aria-hidden="true">&#127968;</span>
+            <strong>Residential</strong>
+            <span>Purchase, refinance, construction</span>
+          </a>
+          <a class="cta-card" href="#scenario" data-loan-type="commercial">
+            <span class="cta-icon" aria-hidden="true">&#127962;</span>
             <strong>Commercial</strong>
             <span>CRE, SBA, equipment, working capital</span>
-          </a>
-          <a class="cta-card" href="admin.html">
-            <span class="cta-icon" aria-hidden="true">&#128196;</span>
-            <strong>Admin Dashboard</strong>
-            <span>Upload lender guideline PDFs</span>
           </a>
         </div>
         <div class="hero-stats">
@@ -90,7 +90,12 @@
 
           <div class="scenario-layout">
             <form class="scenario-form" id="scenario-form">
-              <div class="preset-row" aria-label="Scenario presets">
+              <div class="loan-type-tabs" aria-label="Loan type">
+                <button class="loan-type-tab" type="button" data-loan-type="residential">Residential</button>
+                <button class="loan-type-tab active" type="button" data-loan-type="commercial">Commercial</button>
+              </div>
+
+              <div class="preset-row" id="preset-row" aria-label="Scenario presets">
                 <button class="preset active" type="button" data-preset="property">Property purchase</button>
                 <button class="preset" type="button" data-preset="equipment">Equipment upgrade</button>
                 <button class="preset" type="button" data-preset="growth">Growth capital</button>
@@ -100,10 +105,19 @@
                 <label class="field" for="scenario-product">
                   <span class="field-label">Product need</span>
                   <select id="scenario-product" name="product">
-                    <option value="CRE">Commercial real estate</option>
-                    <option value="SBA">SBA</option>
-                    <option value="Equipment">Equipment</option>
-                    <option value="Working Capital">Working capital</option>
+                    <optgroup label="Commercial">
+                      <option value="CRE">Commercial real estate</option>
+                      <option value="SBA">SBA</option>
+                      <option value="Equipment">Equipment</option>
+                      <option value="Working Capital">Working capital</option>
+                    </optgroup>
+                    <optgroup label="Residential">
+                      <option value="Conventional">Conventional mortgage</option>
+                      <option value="FHA">FHA</option>
+                      <option value="VA">VA loan</option>
+                      <option value="Jumbo">Jumbo</option>
+                      <option value="Construction">Residential construction</option>
+                    </optgroup>
                   </select>
                 </label>
 
@@ -177,10 +191,19 @@
                   <span class="field-label">Product</span>
                   <select id="product" name="product">
                     <option value="all">All products</option>
-                    <option value="CRE">Commercial real estate</option>
-                    <option value="SBA">SBA</option>
-                    <option value="Equipment">Equipment</option>
-                    <option value="Working Capital">Working capital</option>
+                    <optgroup label="Commercial">
+                      <option value="CRE">Commercial real estate</option>
+                      <option value="SBA">SBA</option>
+                      <option value="Equipment">Equipment</option>
+                      <option value="Working Capital">Working capital</option>
+                    </optgroup>
+                    <optgroup label="Residential">
+                      <option value="Conventional">Conventional mortgage</option>
+                      <option value="FHA">FHA</option>
+                      <option value="VA">VA loan</option>
+                      <option value="Jumbo">Jumbo</option>
+                      <option value="Construction">Residential construction</option>
+                    </optgroup>
                   </select>
                 </label>
                 <label class="field" for="amount">

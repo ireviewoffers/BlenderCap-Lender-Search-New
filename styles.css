@@ -492,6 +492,41 @@ input:focus, select:focus {
   padding: 1.5rem;
 }
 
+.loan-type-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.loan-type-tab {
+  flex: 1;
+  border: 0;
+  background: white;
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  transition: background 120ms, color 120ms;
+}
+
+.loan-type-tab + .loan-type-tab {
+  border-left: 1px solid var(--line);
+}
+
+.loan-type-tab.active {
+  background: var(--navy);
+  color: white;
+}
+
+.loan-type-tab:not(.active):hover {
+  background: var(--bg);
+  color: var(--ink);
+}
+
 .preset-row {
   display: flex;
   flex-wrap: wrap;
