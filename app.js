@@ -1,4 +1,4 @@
-const lenders = [
+const builtInLenders = [
   {
     id: "atlas-commercial-capital",
     name: "Atlas Commercial Capital",
@@ -119,9 +119,109 @@ const lenders = [
     ],
     tags: ["Term loan", "Operating line", "Bank"],
   },
+  {
+    id: "pinnacle-home-lending",
+    name: "Pinnacle Home Lending",
+    type: "Conventional",
+    location: "National",
+    description:
+      "Full-service conventional mortgage originator for primary residences, second homes, and investment properties.",
+    minAmount: 100000,
+    maxAmount: 750000,
+    rate: 6.25,
+    closeDays: 30,
+    baseFit: 94,
+    collateral: ["Real estate"],
+    strengths: [
+      "Strong conventional conforming product with competitive pricing.",
+      "National reach with local processing for faster underwriting.",
+      "Experienced with first-time buyers and investment properties.",
+    ],
+    tags: ["Conforming", "Primary residence", "Investment"],
+  },
+  {
+    id: "liberty-fha-mortgage",
+    name: "Liberty FHA Mortgage",
+    type: "FHA",
+    location: "National",
+    description:
+      "FHA-approved lender specializing in low down payment purchases and streamline refinances for qualifying borrowers.",
+    minAmount: 75000,
+    maxAmount: 500000,
+    rate: 5.9,
+    closeDays: 35,
+    baseFit: 90,
+    collateral: ["Real estate"],
+    strengths: [
+      "FHA expertise with 3.5% down payment programs for qualified buyers.",
+      "Streamline refinance options simplify rate-and-term improvements.",
+      "Strong track record with credit-challenged borrowers.",
+    ],
+    tags: ["FHA", "Low down payment", "Streamline refi"],
+  },
+  {
+    id: "veterans-first-home-loans",
+    name: "Veterans First Home Loans",
+    type: "VA",
+    location: "National",
+    description:
+      "Dedicated VA lender offering zero-down purchase and IRRRL refinance programs for eligible veterans and service members.",
+    minAmount: 100000,
+    maxAmount: 1500000,
+    rate: 5.75,
+    closeDays: 32,
+    baseFit: 92,
+    collateral: ["Real estate"],
+    strengths: [
+      "VA loan specialist with zero down payment for eligible borrowers.",
+      "IRRRL streamline refinance reduces paperwork and closing costs.",
+      "Dedicated to serving military families with personalized support.",
+    ],
+    tags: ["VA", "Zero down", "IRRRL"],
+  },
+  {
+    id: "grandview-jumbo-mortgage",
+    name: "Grandview Jumbo Mortgage",
+    type: "Jumbo",
+    location: "West Coast",
+    description:
+      "Jumbo and super-jumbo mortgage products for high-value properties in premium coastal markets.",
+    minAmount: 750000,
+    maxAmount: 10000000,
+    rate: 6.8,
+    closeDays: 28,
+    baseFit: 87,
+    collateral: ["Real estate"],
+    strengths: [
+      "Portfolio jumbo products with flexible guidelines for high-net-worth borrowers.",
+      "West Coast focus with deep knowledge of premium property markets.",
+      "Competitive pricing on super-jumbo loans above $2M.",
+    ],
+    tags: ["Jumbo", "Super-jumbo", "High-value"],
+  },
+  {
+    id: "evergreen-construction-lending",
+    name: "Evergreen Construction Lending",
+    type: "Construction",
+    location: "Southeast",
+    description:
+      "Single-close construction-to-permanent loans for custom homes and major renovation projects.",
+    minAmount: 200000,
+    maxAmount: 3000000,
+    rate: 7.2,
+    closeDays: 45,
+    baseFit: 86,
+    collateral: ["Real estate"],
+    strengths: [
+      "Single-close construction-to-perm simplifies the build process.",
+      "Draw schedules and builder approval handled in-house.",
+      "Southeast market expertise for new construction and major rehab.",
+    ],
+    tags: ["Construction", "Single-close", "Renovation"],
+  },
 ];
 
-const presets = {
+const commercialPresets = {
   property: {
     product: "CRE",
     amount: 2500000,
@@ -144,6 +244,56 @@ const presets = {
     collateral: "Operating cash flow",
   },
 };
+
+const residentialPresets = {
+  purchase: {
+    product: "Conventional",
+    amount: 450000,
+    region: "National",
+    urgency: "standard",
+    collateral: "Real estate",
+  },
+  fha: {
+    product: "FHA",
+    amount: 350000,
+    region: "National",
+    urgency: "standard",
+    collateral: "Real estate",
+  },
+  va: {
+    product: "VA",
+    amount: 500000,
+    region: "National",
+    urgency: "standard",
+    collateral: "Real estate",
+  },
+};
+
+let activeLoanType = "commercial";
+let presets = commercialPresets;
+
+const uploadedLenders = [];
+const uploadStorageKey = "blendercap-demo-uploaded-lenders";
+
+function getAllLenders() {
+  return [...builtInLenders, ...uploadedLenders];
+}
+
+function loadUploadedLenders() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(uploadStorageKey) || "[]");
+    if (Array.isArray(parsed)) {
+      uploadedLenders.length = 0;
+      parsed.forEach((l) => uploadedLenders.push(l));
+    }
+  } catch { /* ignore corrupt storage */ }
+}
+
+function saveUploadedLenders() {
+  localStorage.setItem(uploadStorageKey, JSON.stringify(uploadedLenders));
+}
+
+loadUploadedLenders();
 
 const storageKey = "blendercap-demo-shortlist";
 
@@ -265,7 +415,7 @@ function calculateFit(lender, scenario) {
 
 function getRankedLenders() {
   const scenario = getScenario();
-  return lenders
+  return getAllLenders()
     .map((lender) => ({
       ...lender,
       fit: calculateFit(lender, scenario),
@@ -353,15 +503,25 @@ function renderTopMatch() {
   topMatchMeter.style.width = `${topMatch.fit.score}%`;
 }
 
+function getLenderInitials(name) {
+  return name
+    .split(/\s+/)
+    .filter((w) => w.length > 0)
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join("");
+}
+
 function createLenderCard(lender) {
   const card = template.content.firstElementChild.cloneNode(true);
   const isShortlisted = shortlist.includes(lender.id);
 
   card.dataset.lenderId = lender.id;
   card.classList.toggle("is-shortlisted", isShortlisted);
+  card.querySelector(".lender-initials").textContent = getLenderInitials(lender.name);
   card.querySelector(".lender-type").textContent = `${lender.type} | ${lender.location}`;
   card.querySelector("h3").textContent = lender.name;
-  card.querySelector(".match-score").textContent = `${lender.fit.score}% fit`;
+  card.querySelector(".match-badge").textContent = `${lender.fit.score}% fit`;
   card.querySelector(".description").textContent = lender.description;
   card.querySelector(".amount").textContent = formatAmountRange(lender);
   card.querySelector(".rate").textContent = `${lender.rate.toFixed(1)}%`;
@@ -405,7 +565,7 @@ function renderLenders() {
 
   lenderGrid.replaceChildren();
   resultCount.textContent = filteredLenders.length;
-  resultLabel.textContent = filteredLenders.length === 1 ? "match" : "matches";
+  resultLabel.textContent = filteredLenders.length === 1 ? "Matching Lender" : "Matching Lenders";
 
   if (filteredLenders.length === 0) {
     renderEmptyState();
@@ -420,8 +580,9 @@ function renderLenders() {
 function loadShortlist() {
   try {
     const parsed = JSON.parse(localStorage.getItem(storageKey) || "[]");
+    const all = getAllLenders();
     return Array.isArray(parsed)
-      ? parsed.filter((id) => lenders.some((lender) => lender.id === id))
+      ? parsed.filter((id) => all.some((lender) => lender.id === id))
       : [];
   } catch {
     return [];
@@ -444,7 +605,7 @@ function toggleShortlist(lenderId) {
 }
 
 function renderShortlist() {
-  heroShortlistCount.textContent = `${shortlist.length} saved`;
+  heroShortlistCount.textContent = shortlist.length;
   shortlistList.replaceChildren();
 
   if (shortlist.length === 0) {
@@ -534,6 +695,15 @@ function openLenderDialog(lenderId) {
     strengths.append(item);
   });
 
+  const guidelinesSection = document.querySelector("#dialog-guidelines-section");
+  const sourceFile = document.querySelector("#dialog-source-file");
+  if (lender.source === "pdf" && lender.sourceFile) {
+    guidelinesSection.hidden = false;
+    sourceFile.textContent = lender.sourceFile;
+  } else {
+    guidelinesSection.hidden = true;
+  }
+
   if (typeof dialog.showModal === "function") {
     dialog.showModal();
   } else {
@@ -595,6 +765,7 @@ async function copyShortlistSummary() {
 }
 
 function renderAll() {
+  lenderCount.textContent = getAllLenders().length;
   rankedLenders = getRankedLenders();
   renderScenarioSummary();
   renderTopMatch();
@@ -602,7 +773,7 @@ function renderAll() {
   renderShortlist();
 }
 
-lenderCount.textContent = lenders.length;
+lenderCount.textContent = getAllLenders().length;
 
 scenarioForm.addEventListener("input", () => {
   updateActivePreset();
@@ -654,6 +825,52 @@ dialog.addEventListener("click", (event) => {
   if (event.target === dialog) {
     closeDialog();
   }
+});
+
+/* ---- Loan type tabs (Residential / Commercial) ---- */
+
+const presetRow = document.querySelector("#preset-row");
+const commercialPresetButtons = {
+  property: "Property purchase",
+  equipment: "Equipment upgrade",
+  growth: "Growth capital",
+};
+const residentialPresetButtons = {
+  purchase: "Home purchase",
+  fha: "FHA loan",
+  va: "VA loan",
+};
+
+function switchLoanType(type) {
+  activeLoanType = type;
+  presets = type === "residential" ? residentialPresets : commercialPresets;
+
+  document.querySelectorAll(".loan-type-tab").forEach((tab) => {
+    tab.classList.toggle("active", tab.dataset.loanType === type);
+  });
+
+  const buttons = type === "residential" ? residentialPresetButtons : commercialPresetButtons;
+  presetRow.replaceChildren();
+  const presetNames = Object.keys(buttons);
+  presetNames.forEach((name, i) => {
+    const btn = document.createElement("button");
+    btn.className = "preset" + (i === 0 ? " active" : "");
+    btn.type = "button";
+    btn.dataset.preset = name;
+    btn.textContent = buttons[name];
+    btn.addEventListener("click", () => setPreset(name));
+    presetRow.append(btn);
+  });
+
+  setPreset(presetNames[0]);
+}
+
+document.querySelectorAll(".loan-type-tab").forEach((tab) => {
+  tab.addEventListener("click", () => switchLoanType(tab.dataset.loanType));
+});
+
+document.querySelectorAll(".cta-card[data-loan-type]").forEach((card) => {
+  card.addEventListener("click", () => switchLoanType(card.dataset.loanType));
 });
 
 renderAll();

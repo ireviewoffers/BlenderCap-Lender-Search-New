@@ -4,7 +4,7 @@
   "private": true,
   "description": "Static BlenderCap lender search demo configured for Vercel.",
   "scripts": {
-    "build": "node --check app.js && node scripts/verify-static-site.js",
+    "build": "node --check app.js && node --check admin.js && node scripts/verify-static-site.js && node scripts/build-public.js",
     "dev": "npx vercel dev",
     "start": "python3 -m http.server 8080",
     "verify": "npm run build",

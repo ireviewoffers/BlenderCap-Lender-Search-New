@@ -1,4 +1,4 @@
-name: Vercel demo deploy
+name: Vercel deploy
 
 on:
   pull_request:
@@ -9,10 +9,11 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   validate:
-    name: Validate static demo
+    name: Validate static site
     runs-on: ubuntu-latest
 
     steps:
@@ -26,6 +27,68 @@ jobs:
 
       - name: Verify static site
         run: npm run build
+
+  deploy-preview:
+    name: Deploy preview to Vercel
+    needs: validate
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check Vercel secrets
+        id: check-secrets
+        run: |
+          if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID" ]; then
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Vercel secrets not configured. Skipping preview deployment."
+          else
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Pull Vercel project settings
+        if: steps.check-secrets.outputs.available == 'true'
+        run: npx vercel@latest pull --yes --environment=preview --token="$VERCEL_TOKEN"
+
+      - name: Build with Vercel
+        if: steps.check-secrets.outputs.available == 'true'
+        run: npx vercel@latest build --token="$VERCEL_TOKEN"
+
+      - name: Deploy preview to Vercel
+        if: steps.check-secrets.outputs.available == 'true'
+        id: deploy
+        run: |
+          url=$(npx vercel@latest deploy --prebuilt --token="$VERCEL_TOKEN")
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Comment preview URL on PR
+        if: steps.check-secrets.outputs.available == 'true' && steps.deploy.outputs.url
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const url = '${{ steps.deploy.outputs.url }}';
+            const body = `**Vercel Preview Deployment**\n\n` +
+              `| Page | URL |\n|---|---|\n` +
+              `| Lender Search | [${url}](${url}) |\n` +
+              `| Admin Dashboard | [${url}/admin](${url}/admin) |\n`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
 
   deploy-production:
     name: Deploy production to Vercel

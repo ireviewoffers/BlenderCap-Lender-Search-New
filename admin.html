@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard — BlenderCap Lender Search</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="admin-body">
+    <nav class="topbar" aria-label="Primary navigation">
+      <div class="topbar-inner">
+        <a class="brand" href="index.html" aria-label="BlenderCap home">
+          <span class="brand-mark">BC</span>
+          <span class="brand-text">BlenderCap</span>
+        </a>
+        <div class="nav-links">
+          <a class="nav-link" href="index.html">Lender Search</a>
+          <a class="nav-link nav-link-active" href="admin.html">Admin Dashboard</a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="admin-header">
+      <div class="admin-header-inner">
+        <div>
+          <h1>Admin Dashboard</h1>
+          <p>Upload lender guideline PDFs and manage the lender network.</p>
+        </div>
+        <div class="admin-stats">
+          <div class="admin-stat">
+            <strong id="stat-built-in">6</strong>
+            <span>Built-in lenders</span>
+          </div>
+          <div class="admin-stat">
+            <strong id="stat-uploaded">0</strong>
+            <span>Uploaded lenders</span>
+          </div>
+          <div class="admin-stat">
+            <strong id="stat-total">6</strong>
+            <span>Total lenders</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <div class="admin-grid">
+        <!-- Upload panel -->
+        <section class="admin-panel" id="upload-panel">
+          <div class="admin-panel-header">
+            <h2>Upload Lender Guidelines</h2>
+            <p>Add PDF guideline documents. The system extracts product, rate, amount, and region details automatically.</p>
+          </div>
+          <div class="upload-area" id="upload-area">
+            <div class="upload-dropzone" id="upload-dropzone" role="button" tabindex="0" aria-label="Drop PDF files or click to browse">
+              <span class="upload-icon" aria-hidden="true">&#x2191;</span>
+              <p class="upload-prompt"><strong>Drop PDF files here</strong> or click to browse</p>
+              <p class="upload-hint">Accepted format: PDF lender guideline documents</p>
+              <input type="file" id="pdf-input" accept=".pdf,application/pdf" multiple hidden>
+            </div>
+            <div class="upload-status" id="upload-status" role="status" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <!-- Uploaded lenders list -->
+        <section class="admin-panel" id="lenders-panel">
+          <div class="admin-panel-header">
+            <h2>Uploaded Lenders</h2>
+            <p>Lenders extracted from uploaded PDF guidelines. These appear alongside built-in lenders in the search results.</p>
+          </div>
+          <div class="uploaded-lenders" id="uploaded-lenders-list"></div>
+          <div class="admin-panel-footer" id="uploaded-actions" hidden>
+            <button class="btn btn-outline btn-danger" id="clear-all-uploaded" type="button">Remove all uploaded lenders</button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="brand-mark">BC</span>
+          <span>BlenderCap</span>
+        </div>
+        <div class="footer-links">
+          <a href="index.html">Lender Search</a>
+          <a href="admin.html">Admin Dashboard</a>
+        </div>
+        <p class="footer-copy">BlenderCap Lender Search Demo. For demonstration purposes only.</p>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.155/pdf.min.mjs" type="module"></script>
+    <script src="admin.js" type="module"></script>
+  </body>
+</html>
