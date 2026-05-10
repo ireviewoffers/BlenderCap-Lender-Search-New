@@ -376,15 +376,25 @@ function renderTopMatch() {
   topMatchMeter.style.width = `${topMatch.fit.score}%`;
 }
 
+function getLenderInitials(name) {
+  return name
+    .split(/\s+/)
+    .filter((w) => w.length > 0)
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join("");
+}
+
 function createLenderCard(lender) {
   const card = template.content.firstElementChild.cloneNode(true);
   const isShortlisted = shortlist.includes(lender.id);
 
   card.dataset.lenderId = lender.id;
   card.classList.toggle("is-shortlisted", isShortlisted);
+  card.querySelector(".lender-initials").textContent = getLenderInitials(lender.name);
   card.querySelector(".lender-type").textContent = `${lender.type} | ${lender.location}`;
   card.querySelector("h3").textContent = lender.name;
-  card.querySelector(".match-score").textContent = `${lender.fit.score}% fit`;
+  card.querySelector(".match-badge").textContent = `${lender.fit.score}% fit`;
   card.querySelector(".description").textContent = lender.description;
   card.querySelector(".amount").textContent = formatAmountRange(lender);
   card.querySelector(".rate").textContent = `${lender.rate.toFixed(1)}%`;
@@ -428,7 +438,7 @@ function renderLenders() {
 
   lenderGrid.replaceChildren();
   resultCount.textContent = filteredLenders.length;
-  resultLabel.textContent = filteredLenders.length === 1 ? "match" : "matches";
+  resultLabel.textContent = filteredLenders.length === 1 ? "Matching Lender" : "Matching Lenders";
 
   if (filteredLenders.length === 0) {
     renderEmptyState();
@@ -468,7 +478,7 @@ function toggleShortlist(lenderId) {
 }
 
 function renderShortlist() {
-  heroShortlistCount.textContent = `${shortlist.length} saved`;
+  heroShortlistCount.textContent = shortlist.length;
   shortlistList.replaceChildren();
 
   if (shortlist.length === 0) {
@@ -557,6 +567,15 @@ function openLenderDialog(lenderId) {
     item.textContent = strength;
     strengths.append(item);
   });
+
+  const guidelinesSection = document.querySelector("#dialog-guidelines-section");
+  const sourceFile = document.querySelector("#dialog-source-file");
+  if (lender.source === "pdf" && lender.sourceFile) {
+    guidelinesSection.hidden = false;
+    sourceFile.textContent = lender.sourceFile;
+  } else {
+    guidelinesSection.hidden = true;
+  }
 
   if (typeof dialog.showModal === "function") {
     dialog.showModal();

@@ -31,6 +31,8 @@ const requiredIds = [
   "pdf-input",
   "upload-status",
   "uploaded-lenders-list",
+  "top-match-name",
+  "result-count",
 ];
 
 const missingAssets = assets.filter((asset) => !existsSync(join(root, asset)));

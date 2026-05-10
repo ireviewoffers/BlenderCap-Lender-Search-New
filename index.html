@@ -3,272 +3,294 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>BlenderCap Lender Search Demo</title>
+    <title>BlenderCap Lender Search</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <header class="hero">
-      <nav class="topbar" aria-label="Primary navigation">
+    <nav class="topbar" aria-label="Primary navigation">
+      <div class="topbar-inner">
         <a class="brand" href="#top" aria-label="BlenderCap home">
           <span class="brand-mark">BC</span>
-          <span>BlenderCap</span>
+          <span class="brand-text">BlenderCap</span>
         </a>
         <div class="nav-links">
-          <a class="nav-link" href="#upload">Upload</a>
-          <a class="nav-link" href="#scenario">Scenario</a>
-          <a class="nav-link" href="#lenders">Lenders</a>
+          <a class="nav-link" href="#scenario">Find a Lender</a>
+          <a class="nav-link" href="#upload">Upload Guidelines</a>
           <a class="nav-link" href="#shortlist">Shortlist</a>
         </div>
-      </nav>
+      </div>
+    </nav>
 
-      <section class="hero-grid" id="top">
-        <div class="hero-copy">
-          <p class="eyebrow">Usable demo site</p>
-          <h1>Match a borrower with lenders in one guided flow.</h1>
-          <p class="hero-text">
-            Build a sample financing request, review ranked lenders, inspect
-            deal-fit details, and create a shortlist without leaving the page.
-          </p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#scenario">Build scenario</a>
-            <a class="button button-ghost" href="#lenders">Browse lenders</a>
+    <header class="hero" id="top">
+      <div class="hero-inner">
+        <p class="hero-tagline">The lender marketplace</p>
+        <h1>Where Funding<br>is Found</h1>
+        <p class="hero-sub">
+          Match borrower scenarios with direct lenders. Upload guidelines,
+          compare fit scores, and build a shortlist — all in one guided flow.
+        </p>
+        <div class="hero-cta-row">
+          <a class="cta-card" href="#scenario">
+            <span class="cta-icon" aria-hidden="true">&#9971;</span>
+            <strong>Commercial</strong>
+            <span>CRE, SBA, equipment, working capital</span>
+          </a>
+          <a class="cta-card" href="#upload">
+            <span class="cta-icon" aria-hidden="true">&#128196;</span>
+            <strong>Upload PDFs</strong>
+            <span>Add lender guideline documents</span>
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong id="lender-count">0</strong>
+            <span>Lenders</span>
+          </div>
+          <div class="hero-stat">
+            <strong id="hero-best-fit">--</strong>
+            <span>Best fit</span>
+          </div>
+          <div class="hero-stat">
+            <strong id="hero-shortlist-count">0</strong>
+            <span>Shortlisted</span>
           </div>
         </div>
-
-        <aside class="summary-card" aria-label="Demo highlights">
-          <p class="summary-label">Demo workspace</p>
-          <div class="summary-stat">
-            <strong id="lender-count">0</strong>
-            <span>sample lenders</span>
-          </div>
-          <dl class="hero-metrics">
-            <div>
-              <dt>Best fit</dt>
-              <dd id="hero-best-fit">--</dd>
-            </div>
-            <div>
-              <dt>Shortlist</dt>
-              <dd id="hero-shortlist-count">0 saved</dd>
-            </div>
-          </dl>
-        </aside>
-      </section>
+      </div>
     </header>
 
     <main>
-      <section class="workspace" id="upload" aria-labelledby="upload-heading">
-        <div class="section-heading">
-          <p class="eyebrow">Lender guidelines</p>
-          <h2 id="upload-heading">Upload lender PDFs</h2>
-          <p>
-            Add PDF guideline documents from lenders. The system extracts
-            product, rate, amount, and region details and adds each lender
-            to the ranked search results automatically.
-          </p>
+      <!-- Step indicators -->
+      <div class="step-bar">
+        <div class="step-bar-inner">
+          <a class="step-indicator active" href="#upload" data-step="upload">
+            <span class="step-num">1</span>
+            <span class="step-text">Upload guidelines</span>
+          </a>
+          <span class="step-divider"></span>
+          <a class="step-indicator" href="#scenario" data-step="scenario">
+            <span class="step-num">2</span>
+            <span class="step-text">Build scenario</span>
+          </a>
+          <span class="step-divider"></span>
+          <a class="step-indicator" href="#lenders" data-step="lenders">
+            <span class="step-num">3</span>
+            <span class="step-text">Review lenders</span>
+          </a>
+          <span class="step-divider"></span>
+          <a class="step-indicator" href="#shortlist" data-step="shortlist">
+            <span class="step-num">4</span>
+            <span class="step-text">Package shortlist</span>
+          </a>
         </div>
+      </div>
 
-        <div class="upload-area" id="upload-area">
-          <div class="upload-dropzone" id="upload-dropzone" role="button" tabindex="0" aria-label="Drop PDF files or click to browse">
-            <span class="upload-icon" aria-hidden="true">&#x2191;</span>
-            <p class="upload-prompt"><strong>Drop PDF files here</strong> or click to browse</p>
-            <p class="upload-hint">Accepted format: PDF lender guideline documents</p>
-            <input type="file" id="pdf-input" accept=".pdf,application/pdf" multiple hidden>
+      <!-- Step 1: Upload -->
+      <section class="section" id="upload">
+        <div class="section-inner">
+          <div class="section-header">
+            <span class="section-step">Step 1</span>
+            <h2>Upload Lender Guidelines</h2>
+            <p>Add PDF guideline documents from lenders. The system extracts product, rate, amount, and region details automatically.</p>
           </div>
-          <div class="upload-status" id="upload-status" role="status" aria-live="polite"></div>
-          <div class="uploaded-lenders" id="uploaded-lenders-list"></div>
-        </div>
-      </section>
-
-      <section class="workspace" id="scenario" aria-labelledby="scenario-heading">
-        <div class="section-heading">
-          <p class="eyebrow">Step 1</p>
-          <h2 id="scenario-heading">Set up a borrower scenario</h2>
-          <p>
-            Use a preset or enter custom details. The ranked results update as
-            the request changes.
-          </p>
-        </div>
-
-        <div class="scenario-layout">
-          <form class="scenario-card" id="scenario-form">
-            <div class="preset-row" aria-label="Scenario presets">
-              <button class="chip active" type="button" data-preset="property">
-                Property purchase
-              </button>
-              <button class="chip" type="button" data-preset="equipment">
-                Equipment upgrade
-              </button>
-              <button class="chip" type="button" data-preset="growth">
-                Growth capital
-              </button>
+          <div class="upload-area" id="upload-area">
+            <div class="upload-dropzone" id="upload-dropzone" role="button" tabindex="0" aria-label="Drop PDF files or click to browse">
+              <span class="upload-icon" aria-hidden="true">&#x2191;</span>
+              <p class="upload-prompt"><strong>Drop PDF files here</strong> or click to browse</p>
+              <p class="upload-hint">Accepted format: PDF lender guideline documents</p>
+              <input type="file" id="pdf-input" accept=".pdf,application/pdf" multiple hidden>
             </div>
-
-            <div class="form-grid">
-              <label class="control" for="scenario-product">
-                <span>Product need</span>
-                <select id="scenario-product" name="product">
-                  <option value="CRE">Commercial real estate</option>
-                  <option value="SBA">SBA</option>
-                  <option value="Equipment">Equipment</option>
-                  <option value="Working Capital">Working capital</option>
-                </select>
-              </label>
-
-              <label class="control" for="scenario-amount">
-                <span>Requested amount</span>
-                <input
-                  id="scenario-amount"
-                  name="amount"
-                  type="number"
-                  min="50000"
-                  step="50000"
-                  value="2500000"
-                >
-              </label>
-
-              <label class="control" for="scenario-region">
-                <span>Borrower region</span>
-                <select id="scenario-region" name="region">
-                  <option value="National">National</option>
-                  <option value="West Coast">West Coast</option>
-                  <option value="Midwest">Midwest</option>
-                  <option value="Southeast">Southeast</option>
-                  <option value="Northeast">Northeast</option>
-                </select>
-              </label>
-
-              <label class="control" for="scenario-urgency">
-                <span>Close timeline</span>
-                <select id="scenario-urgency" name="urgency">
-                  <option value="fast">As soon as possible</option>
-                  <option value="standard">30 to 45 days</option>
-                  <option value="flexible">Flexible</option>
-                </select>
-              </label>
-
-              <label class="control control-wide" for="scenario-collateral">
-                <span>Collateral or use case</span>
-                <select id="scenario-collateral" name="collateral">
-                  <option value="Real estate">Real estate</option>
-                  <option value="Equipment">Equipment</option>
-                  <option value="Business assets">Business assets</option>
-                  <option value="Operating cash flow">Operating cash flow</option>
-                </select>
-              </label>
-            </div>
-          </form>
-
-          <aside class="match-panel" aria-live="polite">
-            <p class="summary-label">Recommended next lender</p>
-            <h3 id="top-match-name">Atlas Commercial Capital</h3>
-            <p id="top-match-summary">
-              This lender is currently the best fit for the selected request.
-            </p>
-            <div class="fit-meter" aria-label="Top fit score">
-              <span id="top-match-meter"></span>
-            </div>
-            <dl class="scenario-summary" id="scenario-summary"></dl>
-            <a class="button button-primary" href="#lenders">Review ranked results</a>
-          </aside>
-        </div>
-      </section>
-
-      <section class="workspace" id="lenders" aria-labelledby="search-heading">
-        <div class="section-heading">
-          <p class="eyebrow">Step 2</p>
-          <h2 id="search-heading">Explore ranked lenders</h2>
-          <p>
-            Search the lender network, view fit notes, and save the strongest
-            candidates to the shortlist.
-          </p>
-        </div>
-
-        <form class="controls" id="search-form">
-          <label class="control control-wide" for="query">
-            <span>Keyword</span>
-            <input
-              id="query"
-              name="query"
-              type="search"
-              placeholder="Search by lender, sector, location, or tag"
-              autocomplete="off"
-            >
-          </label>
-
-          <label class="control" for="product">
-            <span>Product</span>
-            <select id="product" name="product">
-              <option value="all">All products</option>
-              <option value="CRE">Commercial real estate</option>
-              <option value="SBA">SBA</option>
-              <option value="Equipment">Equipment</option>
-              <option value="Working Capital">Working capital</option>
-            </select>
-          </label>
-
-          <label class="control" for="amount">
-            <span>Minimum amount</span>
-            <select id="amount" name="amount">
-              <option value="0">Any size</option>
-              <option value="250000">$250K+</option>
-              <option value="1000000">$1M+</option>
-              <option value="5000000">$5M+</option>
-              <option value="10000000">$10M+</option>
-            </select>
-          </label>
-
-          <label class="control" for="sort">
-            <span>Sort by</span>
-            <select id="sort" name="sort">
-              <option value="fit">Scenario fit</option>
-              <option value="rate">Lowest starting rate</option>
-              <option value="speed">Fastest close</option>
-              <option value="amount">Largest max amount</option>
-            </select>
-          </label>
-        </form>
-
-        <div class="results-meta" aria-live="polite">
-          <strong id="result-count">0</strong>
-          <span id="result-label">matches</span>
-        </div>
-
-        <div class="lender-grid" id="lender-grid"></div>
-      </section>
-
-      <section class="workspace shortlist-workspace" id="shortlist" aria-labelledby="shortlist-heading">
-        <div class="section-heading">
-          <p class="eyebrow">Step 3</p>
-          <h2 id="shortlist-heading">Package the shortlist</h2>
-          <p>
-            Saved lenders stay available while you explore. This simulates the
-            handoff to a borrower or relationship manager.
-          </p>
-        </div>
-
-        <div class="shortlist-panel">
-          <div id="shortlist-list" class="shortlist-list" aria-live="polite"></div>
-          <div class="shortlist-actions">
-            <button class="button button-secondary" id="copy-summary" type="button">
-              Copy shortlist summary
-            </button>
-            <button class="button button-ghost" id="clear-shortlist" type="button">
-              Clear shortlist
-            </button>
+            <div class="upload-status" id="upload-status" role="status" aria-live="polite"></div>
+            <div class="uploaded-lenders" id="uploaded-lenders-list"></div>
           </div>
-          <p class="copy-status" id="copy-status" role="status"></p>
+          <div class="section-nav">
+            <a class="btn btn-primary" href="#scenario">Continue to scenario &#8594;</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 2: Scenario -->
+      <section class="section section-alt" id="scenario">
+        <div class="section-inner">
+          <div class="section-header">
+            <span class="section-step">Step 2</span>
+            <h2>Build a Borrower Scenario</h2>
+            <p>Select a preset or enter custom financing details. Results update as the scenario changes.</p>
+          </div>
+
+          <div class="scenario-layout">
+            <form class="scenario-form" id="scenario-form">
+              <div class="preset-row" aria-label="Scenario presets">
+                <button class="preset active" type="button" data-preset="property">Property purchase</button>
+                <button class="preset" type="button" data-preset="equipment">Equipment upgrade</button>
+                <button class="preset" type="button" data-preset="growth">Growth capital</button>
+              </div>
+
+              <div class="form-grid">
+                <label class="field" for="scenario-product">
+                  <span class="field-label">Product need</span>
+                  <select id="scenario-product" name="product">
+                    <option value="CRE">Commercial real estate</option>
+                    <option value="SBA">SBA</option>
+                    <option value="Equipment">Equipment</option>
+                    <option value="Working Capital">Working capital</option>
+                  </select>
+                </label>
+
+                <label class="field" for="scenario-amount">
+                  <span class="field-label">Requested amount</span>
+                  <input id="scenario-amount" name="amount" type="number" min="50000" step="50000" value="2500000">
+                </label>
+
+                <label class="field" for="scenario-region">
+                  <span class="field-label">Borrower region</span>
+                  <select id="scenario-region" name="region">
+                    <option value="National">National</option>
+                    <option value="West Coast">West Coast</option>
+                    <option value="Midwest">Midwest</option>
+                    <option value="Southeast">Southeast</option>
+                    <option value="Northeast">Northeast</option>
+                  </select>
+                </label>
+
+                <label class="field" for="scenario-urgency">
+                  <span class="field-label">Close timeline</span>
+                  <select id="scenario-urgency" name="urgency">
+                    <option value="fast">As soon as possible</option>
+                    <option value="standard">30 to 45 days</option>
+                    <option value="flexible">Flexible</option>
+                  </select>
+                </label>
+
+                <label class="field field-wide" for="scenario-collateral">
+                  <span class="field-label">Collateral or use case</span>
+                  <select id="scenario-collateral" name="collateral">
+                    <option value="Real estate">Real estate</option>
+                    <option value="Equipment">Equipment</option>
+                    <option value="Business assets">Business assets</option>
+                    <option value="Operating cash flow">Operating cash flow</option>
+                  </select>
+                </label>
+              </div>
+            </form>
+
+            <aside class="top-match-card" aria-live="polite">
+              <p class="top-match-label">Recommended lender</p>
+              <h3 id="top-match-name">Atlas Commercial Capital</h3>
+              <p id="top-match-summary">This lender is currently the best fit for the selected request.</p>
+              <div class="fit-bar"><span id="top-match-meter"></span></div>
+              <dl class="scenario-summary" id="scenario-summary"></dl>
+              <a class="btn btn-primary" href="#lenders">Review ranked results &#8594;</a>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 3: Search / Results -->
+      <section class="section" id="lenders">
+        <div class="section-inner">
+          <div class="section-header">
+            <span class="section-step">Step 3</span>
+            <h2>Review Matching Lenders</h2>
+            <p>Search the lender network, compare fit scores, and save candidates to the shortlist.</p>
+          </div>
+
+          <div class="results-layout">
+            <aside class="filter-sidebar">
+              <h3 class="sidebar-heading">Search criteria</h3>
+              <form class="sidebar-form" id="search-form">
+                <label class="field" for="query">
+                  <span class="field-label">Keyword</span>
+                  <input id="query" name="query" type="search" placeholder="Lender, sector, or tag" autocomplete="off">
+                </label>
+                <label class="field" for="product">
+                  <span class="field-label">Product</span>
+                  <select id="product" name="product">
+                    <option value="all">All products</option>
+                    <option value="CRE">Commercial real estate</option>
+                    <option value="SBA">SBA</option>
+                    <option value="Equipment">Equipment</option>
+                    <option value="Working Capital">Working capital</option>
+                  </select>
+                </label>
+                <label class="field" for="amount">
+                  <span class="field-label">Minimum amount</span>
+                  <select id="amount" name="amount">
+                    <option value="0">Any size</option>
+                    <option value="250000">$250K+</option>
+                    <option value="1000000">$1M+</option>
+                    <option value="5000000">$5M+</option>
+                    <option value="10000000">$10M+</option>
+                  </select>
+                </label>
+                <label class="field" for="sort">
+                  <span class="field-label">Sort by</span>
+                  <select id="sort" name="sort">
+                    <option value="fit">Scenario fit</option>
+                    <option value="rate">Lowest starting rate</option>
+                    <option value="speed">Fastest close</option>
+                    <option value="amount">Largest max amount</option>
+                  </select>
+                </label>
+              </form>
+            </aside>
+
+            <div class="results-main">
+              <div class="results-count" aria-live="polite">
+                <strong id="result-count">0</strong>
+                <span id="result-label">Matching Lenders</span>
+              </div>
+              <div class="lender-list" id="lender-grid"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 4: Shortlist -->
+      <section class="section section-alt" id="shortlist">
+        <div class="section-inner">
+          <div class="section-header">
+            <span class="section-step">Step 4</span>
+            <h2>Package the Shortlist</h2>
+            <p>Saved lenders stay available while you explore. Copy the summary for handoff to a borrower or relationship manager.</p>
+          </div>
+
+          <div class="shortlist-panel">
+            <div id="shortlist-list" class="shortlist-list" aria-live="polite"></div>
+            <div class="shortlist-actions">
+              <button class="btn btn-primary" id="copy-summary" type="button">Copy shortlist summary</button>
+              <button class="btn btn-outline" id="clear-shortlist" type="button">Clear shortlist</button>
+            </div>
+            <p class="copy-status" id="copy-status" role="status"></p>
+          </div>
         </div>
       </section>
     </main>
 
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="brand-mark">BC</span>
+          <span>BlenderCap</span>
+        </div>
+        <div class="footer-links">
+          <a href="#scenario">Find a Lender</a>
+          <a href="#upload">Upload Guidelines</a>
+          <a href="#shortlist">Shortlist</a>
+        </div>
+        <p class="footer-copy">BlenderCap Lender Search Demo. For demonstration purposes only.</p>
+      </div>
+    </footer>
+
     <dialog class="lender-dialog" id="lender-dialog">
-      <button class="dialog-close" id="dialog-close" type="button" aria-label="Close dialog">
-        x
-      </button>
-      <p class="lender-type" id="dialog-type"></p>
-      <h2 id="dialog-name"></h2>
-      <p id="dialog-description"></p>
-      <dl class="metrics dialog-metrics">
+      <div class="dialog-header">
+        <div>
+          <p class="dialog-type" id="dialog-type"></p>
+          <h2 id="dialog-name"></h2>
+        </div>
+        <button class="dialog-close" id="dialog-close" type="button" aria-label="Close">&#x2715;</button>
+      </div>
+      <p class="dialog-desc" id="dialog-description"></p>
+      <dl class="dialog-stats">
         <div>
           <dt>Loan size</dt>
           <dd id="dialog-amount"></dd>
@@ -282,43 +304,41 @@
           <dd id="dialog-speed"></dd>
         </div>
       </dl>
-      <h3>Why this lender</h3>
-      <ul id="dialog-strengths" class="strength-list"></ul>
+      <div class="dialog-section">
+        <h3>Why this lender</h3>
+        <ul id="dialog-strengths" class="dialog-strengths"></ul>
+      </div>
+      <div class="dialog-section" id="dialog-guidelines-section" hidden>
+        <h3>From uploaded guidelines</h3>
+        <p id="dialog-source-file" class="dialog-source"></p>
+      </div>
     </dialog>
 
     <template id="lender-card-template">
       <article class="lender-card">
-        <div class="card-header">
-          <div>
-            <p class="lender-type"></p>
-            <h3></h3>
-          </div>
-          <span class="match-score"></span>
+        <div class="lender-logo-area">
+          <span class="lender-initials"></span>
         </div>
-        <p class="description"></p>
-        <dl class="metrics">
-          <div>
-            <dt>Amount</dt>
-            <dd class="amount"></dd>
+        <div class="lender-body">
+          <div class="lender-head">
+            <div>
+              <p class="lender-type"></p>
+              <h3></h3>
+            </div>
+            <span class="match-badge"></span>
           </div>
-          <div>
-            <dt>Rate from</dt>
-            <dd class="rate"></dd>
+          <p class="description"></p>
+          <div class="lender-stats">
+            <div class="stat"><span class="stat-label">Amount</span><span class="stat-value amount"></span></div>
+            <div class="stat"><span class="stat-label">Rate from</span><span class="stat-value rate"></span></div>
+            <div class="stat"><span class="stat-label">Close</span><span class="stat-value speed"></span></div>
           </div>
-          <div>
-            <dt>Close time</dt>
-            <dd class="speed"></dd>
+          <ul class="fit-notes"></ul>
+          <div class="tags"></div>
+          <div class="lender-actions">
+            <button class="btn btn-primary detail-button" type="button">View Profile</button>
+            <button class="btn btn-outline shortlist-button" type="button">Save</button>
           </div>
-        </dl>
-        <ul class="fit-notes"></ul>
-        <div class="tags"></div>
-        <div class="card-actions">
-          <button class="button button-secondary detail-button" type="button">
-            View details
-          </button>
-          <button class="button button-ghost shortlist-button" type="button">
-            Save
-          </button>
         </div>
       </article>
     </template>
