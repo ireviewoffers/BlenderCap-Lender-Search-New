@@ -15,8 +15,8 @@
         </a>
         <div class="nav-links">
           <a class="nav-link" href="#scenario">Find a Lender</a>
-          <a class="nav-link" href="#upload">Upload Guidelines</a>
           <a class="nav-link" href="#shortlist">Shortlist</a>
+          <a class="nav-link" href="admin.html">Admin</a>
         </div>
       </div>
     </nav>
@@ -26,8 +26,8 @@
         <p class="hero-tagline">The lender marketplace</p>
         <h1>Where Funding<br>is Found</h1>
         <p class="hero-sub">
-          Match borrower scenarios with direct lenders. Upload guidelines,
-          compare fit scores, and build a shortlist — all in one guided flow.
+          Match borrower scenarios with direct lenders. Compare fit scores
+          and build a shortlist — all in one guided flow.
         </p>
         <div class="hero-cta-row">
           <a class="cta-card" href="#scenario">
@@ -35,10 +35,10 @@
             <strong>Commercial</strong>
             <span>CRE, SBA, equipment, working capital</span>
           </a>
-          <a class="cta-card" href="#upload">
+          <a class="cta-card" href="admin.html">
             <span class="cta-icon" aria-hidden="true">&#128196;</span>
-            <strong>Upload PDFs</strong>
-            <span>Add lender guideline documents</span>
+            <strong>Admin Dashboard</strong>
+            <span>Upload lender guideline PDFs</span>
           </a>
         </div>
         <div class="hero-stats">
@@ -62,57 +62,28 @@
       <!-- Step indicators -->
       <div class="step-bar">
         <div class="step-bar-inner">
-          <a class="step-indicator active" href="#upload" data-step="upload">
+          <a class="step-indicator active" href="#scenario" data-step="scenario">
             <span class="step-num">1</span>
-            <span class="step-text">Upload guidelines</span>
-          </a>
-          <span class="step-divider"></span>
-          <a class="step-indicator" href="#scenario" data-step="scenario">
-            <span class="step-num">2</span>
             <span class="step-text">Build scenario</span>
           </a>
           <span class="step-divider"></span>
           <a class="step-indicator" href="#lenders" data-step="lenders">
-            <span class="step-num">3</span>
+            <span class="step-num">2</span>
             <span class="step-text">Review lenders</span>
           </a>
           <span class="step-divider"></span>
           <a class="step-indicator" href="#shortlist" data-step="shortlist">
-            <span class="step-num">4</span>
+            <span class="step-num">3</span>
             <span class="step-text">Package shortlist</span>
           </a>
         </div>
       </div>
 
-      <!-- Step 1: Upload -->
-      <section class="section" id="upload">
-        <div class="section-inner">
-          <div class="section-header">
-            <span class="section-step">Step 1</span>
-            <h2>Upload Lender Guidelines</h2>
-            <p>Add PDF guideline documents from lenders. The system extracts product, rate, amount, and region details automatically.</p>
-          </div>
-          <div class="upload-area" id="upload-area">
-            <div class="upload-dropzone" id="upload-dropzone" role="button" tabindex="0" aria-label="Drop PDF files or click to browse">
-              <span class="upload-icon" aria-hidden="true">&#x2191;</span>
-              <p class="upload-prompt"><strong>Drop PDF files here</strong> or click to browse</p>
-              <p class="upload-hint">Accepted format: PDF lender guideline documents</p>
-              <input type="file" id="pdf-input" accept=".pdf,application/pdf" multiple hidden>
-            </div>
-            <div class="upload-status" id="upload-status" role="status" aria-live="polite"></div>
-            <div class="uploaded-lenders" id="uploaded-lenders-list"></div>
-          </div>
-          <div class="section-nav">
-            <a class="btn btn-primary" href="#scenario">Continue to scenario &#8594;</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Step 2: Scenario -->
+      <!-- Step 1: Scenario -->
       <section class="section section-alt" id="scenario">
         <div class="section-inner">
           <div class="section-header">
-            <span class="section-step">Step 2</span>
+            <span class="section-step">Step 1</span>
             <h2>Build a Borrower Scenario</h2>
             <p>Select a preset or enter custom financing details. Results update as the scenario changes.</p>
           </div>
@@ -185,11 +156,11 @@
         </div>
       </section>
 
-      <!-- Step 3: Search / Results -->
+      <!-- Step 2: Search / Results -->
       <section class="section" id="lenders">
         <div class="section-inner">
           <div class="section-header">
-            <span class="section-step">Step 3</span>
+            <span class="section-step">Step 2</span>
             <h2>Review Matching Lenders</h2>
             <p>Search the lender network, compare fit scores, and save candidates to the shortlist.</p>
           </div>
@@ -245,11 +216,11 @@
         </div>
       </section>
 
-      <!-- Step 4: Shortlist -->
+      <!-- Step 3: Shortlist -->
       <section class="section section-alt" id="shortlist">
         <div class="section-inner">
           <div class="section-header">
-            <span class="section-step">Step 4</span>
+            <span class="section-step">Step 3</span>
             <h2>Package the Shortlist</h2>
             <p>Saved lenders stay available while you explore. Copy the summary for handoff to a borrower or relationship manager.</p>
           </div>
@@ -274,8 +245,8 @@
         </div>
         <div class="footer-links">
           <a href="#scenario">Find a Lender</a>
-          <a href="#upload">Upload Guidelines</a>
           <a href="#shortlist">Shortlist</a>
+          <a href="admin.html">Admin Dashboard</a>
         </div>
         <p class="footer-copy">BlenderCap Lender Search Demo. For demonstration purposes only.</p>
       </div>
@@ -343,7 +314,6 @@
       </article>
     </template>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.155/pdf.min.mjs" type="module"></script>
     <script src="app.js" type="module"></script>
   </body>
 </html>

@@ -881,6 +881,133 @@ input:focus, select:focus {
   font-size: 0.85rem;
 }
 
+/* ── Admin Dashboard ────────────────────────────────── */
+
+.admin-body { background: var(--bg); }
+
+.admin-header {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+  color: white;
+  padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 3vw, 2rem);
+}
+
+.admin-header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.admin-header h1 {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  letter-spacing: -0.03em;
+  margin-bottom: 0.4rem;
+}
+
+.admin-header p {
+  color: rgba(255,255,255,0.6);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.admin-stats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.admin-stat {
+  text-align: center;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.admin-stat strong {
+  display: block;
+  font-size: 1.75rem;
+  letter-spacing: -0.03em;
+}
+
+.admin-stat span {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.admin-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 3vw, 2rem);
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.admin-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: white;
+  overflow: hidden;
+}
+
+.admin-panel-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.admin-panel-header h2 {
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.35rem;
+}
+
+.admin-panel-header p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.admin-panel .upload-area { padding: 1.5rem; }
+
+.admin-panel .upload-dropzone {
+  background: var(--bg);
+}
+
+.admin-panel .uploaded-lenders {
+  padding: 1.5rem;
+}
+
+.admin-panel .empty-state {
+  margin: 0;
+}
+
+.admin-panel-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.nav-link-active {
+  color: white !important;
+}
+
+@media (max-width: 900px) {
+  .admin-grid { grid-template-columns: 1fr; }
+  .admin-header-inner { flex-direction: column; align-items: flex-start; }
+  .admin-stats { flex-wrap: wrap; }
+}
+
 /* ── Footer ─────────────────────────────────────────── */
 
 .site-footer {
